@@ -1,0 +1,4 @@
+volumes/config/certs/*
+volumes/config/keys/*
+!volumes/config/certs/*.example
+!volumes/config/keys/*.example

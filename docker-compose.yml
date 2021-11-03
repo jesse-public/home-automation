@@ -1,0 +1,27 @@
+version: "3"
+
+networks:
+  main-network:
+    driver: bridge
+    #driver: host
+  reverse-proxy-backend:
+    external: true
+
+services:
+  ha:
+    container_name: ha
+    image: homeassistant/home-assistant
+    # image: homeassistant/raspberrypi4-64-homeassistant
+    # image: homeassistant/aarch64-homeassistant
+    networks:
+      - main-network
+      - reverse-proxy-backend
+    volumes:
+      - "./volumes/config:/config"
+    environment:
+      PROXY_ADDRESS: ${PROXY_ADDRESS}
+      TZ: ${TZ}
+      #DISABLE_JEMALLOC: true
+    restart: unless-stopped
+    #privileged: true
+    #network_mode: host

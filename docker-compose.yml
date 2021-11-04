@@ -18,6 +18,7 @@ services:
       - reverse-proxy-backend
     volumes:
       - "./volumes/config:/config"
+      - "./volumes/config/certs:/config/certs"
     environment:
       PROXY_ADDRESS: ${PROXY_ADDRESS}
       TZ: ${TZ}

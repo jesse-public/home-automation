@@ -1,18 +1,24 @@
 version: "3"
 
+# HomeKit device adoption notice:
+# To discover new HomeKit devices, network_mode: host must be used. After pairing, it can be switched back to a driver: bridge network.
+# Futhermore, any proxy configuration (PROXY_ADDRESS, /volumes/config/configuration.yaml proxy settings) must be disabled.
+# Finally, multicast DNS is required.
+# privileged: true *might* be required.
+# https://github.com/linuxserver/docker-homeassistant#host-vs-bridge
+
 networks:
   main-network:
     driver: bridge
-    #driver: host
   reverse-proxy-backend:
     external: true
 
 services:
   ha:
     container_name: ha
-    image: homeassistant/home-assistant
-    # image: homeassistant/raspberrypi4-64-homeassistant
-    # image: homeassistant/aarch64-homeassistant
+    image: ghcr.io/home-assistant/home-assistant:stable
+    # See above HomeKite device adoption notice.
+    # network_mode: host
     networks:
       - main-network
       - reverse-proxy-backend
@@ -22,7 +28,6 @@ services:
     environment:
       PROXY_ADDRESS: ${PROXY_ADDRESS}
       TZ: ${TZ}
-      #DISABLE_JEMALLOC: true
+      DISABLE_JEMALLOC: "true"
     restart: unless-stopped
-    #privileged: true
-    #network_mode: host
+    privileged: false

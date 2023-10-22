@@ -1,0 +1,3 @@
+[submodule "hass-opensprinkler"]
+	path = hass-opensprinkler
+	url = https://github.com/vinteo/hass-opensprinkler.git

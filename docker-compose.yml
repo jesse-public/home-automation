@@ -10,6 +10,12 @@ version: "3"
 # Reverse proxy configuration must be added to the home assistant configuration.yaml file:
 # https://www.home-assistant.io/integrations/http#reverse-proxies
 
+networks:
+  frontend:
+    driver: bridge
+  ha-reverse-proxy-backend:
+    external: true
+
 services:
 # To update configs, use esphome repo locally with enc.
 #  esphome:
@@ -33,6 +39,7 @@ services:
       PUID: 1000
       PGID: 1000
       TZ: ${TZ}
+      REVERSE_PROXY_IP_ADDRESS: ${REVERSE_PROXY_IP_ADDRESS}
     # ports:
     # Application WebUI, only use this if you are not using a reverse proxy
     #   - 8123:8123/tcp
@@ -44,9 +51,13 @@ services:
     depends_on:
       - ha
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=${TZ}
+      PUID: 1000
+      PGID: 1000
+      TZ: ${TZ}
+    networks:
+      frontend:
+      ha-reverse-proxy-backend:
+        ipv4_address: ${REVERSE_PROXY_IP_ADDRESS}
     volumes:
       - ./volumes/nginx/certs:/certs
       - ./volumes/nginx/config:/config

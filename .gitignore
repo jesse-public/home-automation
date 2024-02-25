@@ -2,4 +2,5 @@ volumes/nginx/config/keys/*
 !volumes/nginx/config/keys/*.example
 volumes/ha/config/*
 !volumes/ha/config/*.example
+!volumes/ha/config/configuration.yaml
 .env

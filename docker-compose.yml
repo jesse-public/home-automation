@@ -2,13 +2,16 @@ version: "3"
 
 # HomeKit device adoption notice:
 # To discover new HomeKit devices, network_mode: host must be used. After pairing, it can be switched back to a driver: bridge network.
-# Futhermore, any proxy configuration (PROXY_ADDRESS, /volumes/config/configuration.yaml proxy settings) must be disabled.
+# Futhermore, any proxy configuration (/volumes/config/configuration.yaml proxy settings) must be disabled.
 # Finally, multicast DNS is required.
 # privileged: true *might* be required.
 # https://github.com/linuxserver/docker-homeassistant#host-vs-bridge
 
+# Reverse proxy configuration must be added to the home assistant configuration.yaml file:
+# https://www.home-assistant.io/integrations/http#reverse-proxies
+
 networks:
-  main-network:
+  frontend:
     driver: bridge
   reverse-proxy-backend:
     external: true
@@ -16,18 +19,29 @@ networks:
 services:
   ha:
     container_name: ha
-    image: ghcr.io/home-assistant/home-assistant:stable
-    # See above HomeKite device adoption notice.
-    # network_mode: host
-    networks:
-      - main-network
+    image: lscr.io/linuxserver/homeassistant:latest
+      - frontend
       - reverse-proxy-backend
     volumes:
-      - "./volumes/config:/config"
-      - "./volumes/config/certs:/config/certs"
+      - ./volumes/config:/config
+      - ./volumes/config/certs:/config/certs
     environment:
-      PROXY_ADDRESS: ${PROXY_ADDRESS}
+      PUID: 1000
+      PGID: 1000
       TZ: ${TZ}
-      DISABLE_JEMALLOC: "true"
+    #ports:
+    # Application WebUI, only use this if you are not using host mode (and are not behind a docker reverse-proxy)
+    #  - 8123:8123/tcp
     restart: unless-stopped
-    privileged: false
+
+# To update configs, use esphome repo locally with enc.
+#  esphome:
+#    container_name: esphome
+#    image: ghcr.io/esphome/esphome
+#    volumes:
+#      - ./volumes/esphome-config:/config
+#    environment:
+#      ESPHOME_DASHBOARD_USE_PING: "true"
+#    ports:
+#      - 6052:6052/tcp
+#    restart: unless-stopped

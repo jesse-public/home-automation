@@ -12,9 +12,6 @@ script: !include scripts.yaml
 scene: !include scenes.yaml
 
 http:
-  server_port: 443
-  ssl_certificate: /config/certs/ha.home.crt
-  ssl_key: /config/keys/ha.home.key
   # Disable the following for temporary HomeKit device adoption.
   use_x_forwarded_for: true
   trusted_proxies:

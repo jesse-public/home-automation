@@ -40,6 +40,8 @@ services:
       PGID: 1000
       TZ: ${TZ}
       REVERSE_PROXY_IP_ADDRESS: ${REVERSE_PROXY_IP_ADDRESS}
+    networks:
+      - ha-reverse-proxy-backend
     # ports:
     # Application WebUI, only use this if you are not using a reverse proxy
     #   - 8123:8123/tcp

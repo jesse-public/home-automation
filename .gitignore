@@ -1,5 +1,5 @@
-volumes/certs/*
-!volumes/certs/*.example
-volumes/config/*
-!volumes/config/*.example
+volumes/nginx/certs/*
+!volumes/nginx/certs/*.example
+volumes/ha/config/*
+!volumes/ha/config/*.example
 .env

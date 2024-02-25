@@ -10,30 +10,7 @@ version: "3"
 # Reverse proxy configuration must be added to the home assistant configuration.yaml file:
 # https://www.home-assistant.io/integrations/http#reverse-proxies
 
-networks:
-  frontend:
-    driver: bridge
-  reverse-proxy-backend:
-    external: true
-
 services:
-  ha:
-    container_name: ha
-    image: lscr.io/linuxserver/homeassistant:latest
-      - frontend
-      - reverse-proxy-backend
-    volumes:
-      - ./volumes/config:/config
-      - ./volumes/config/certs:/config/certs
-    environment:
-      PUID: 1000
-      PGID: 1000
-      TZ: ${TZ}
-    #ports:
-    # Application WebUI, only use this if you are not using host mode (and are not behind a docker reverse-proxy)
-    #  - 8123:8123/tcp
-    restart: unless-stopped
-
 # To update configs, use esphome repo locally with enc.
 #  esphome:
 #    container_name: esphome
@@ -45,3 +22,34 @@ services:
 #    ports:
 #      - 6052:6052/tcp
 #    restart: unless-stopped
+
+  ha:
+    container_name: ha
+    image: lscr.io/linuxserver/homeassistant:latest
+    volumes:
+      - ./volumes/ha/config:/config
+      - ./volumes/ha/config/certs:/config/certs
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: ${TZ}
+    # ports:
+    # Application WebUI, only use this if you are not using a reverse proxy
+    #   - 8123:8123/tcp
+    restart: unless-stopped
+
+  nginx:
+    image: lscr.io/linuxserver/nginx:latest
+    container_name: ha-nginx
+    depends_on:
+      - ha
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TZ}
+    volumes:
+      - ./volumes/nginx/certs:/certs
+      - ./volumes/nginx/config:/config
+    ports:
+      - ${CLIENT_LAN_IP}:443:443
+    restart: unless-stopped

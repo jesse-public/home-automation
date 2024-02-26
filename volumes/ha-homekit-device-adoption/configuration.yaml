@@ -1,0 +1,20 @@
+
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+# Load frontend themes from the themes folder
+frontend:
+  themes: !include_dir_merge_named themes
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+logger:
+  default: info
+  logs:
+    homeassistant.components.zeroconf: debug
+    zeroconf: debug
+
+zeroconf:

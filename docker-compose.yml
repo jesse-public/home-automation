@@ -1,14 +1,6 @@
 version: "3"
 
-# HomeKit device adoption notice:
-# To discover new HomeKit devices, network_mode: host must be used. After pairing, it can be switched back to a driver: bridge network.
-# Futhermore, any proxy configuration (/volumes/config/configuration.yaml proxy settings) must be disabled.
-# Finally, multicast DNS is required.
-# privileged: true *might* be required.
-# https://github.com/linuxserver/docker-homeassistant#host-vs-bridge
-
-# Reverse proxy configuration must be added to the home assistant configuration.yaml file:
-# https://www.home-assistant.io/integrations/http#reverse-proxies
+# HomeKit device adoption notice: Use docker-compose.homekit-device-adoption.yml
 
 networks:
   frontend:

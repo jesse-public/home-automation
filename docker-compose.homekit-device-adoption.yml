@@ -1,0 +1,28 @@
+version: "3"
+
+# To discover new HomeKit devices, network_mode: host must be used. After pairing, it can be switched back to a driver: bridge network.
+# Futhermore, any proxy configuration (/volumes/config/configuration.yaml proxy settings) must be disabled.
+# Finally, multicast DNS is required.
+# privileged: true *might* be required.
+# https://github.com/linuxserver/docker-homeassistant#host-vs-bridge
+
+# Reverse proxy configuration must be added to the home assistant configuration.yaml file:
+# https://www.home-assistant.io/integrations/http#reverse-proxies
+
+# Access HA at IP:8123
+
+services:
+  ha:
+    container_name: ha
+    image: lscr.io/linuxserver/homeassistant:latest
+    volumes:
+      - ./volumes/ha/config:/config
+      - ./volumes/ha-homekit-device-adoption/config/configuration.yaml:/config/configuration.yaml
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: ${TZ}
+    network_mode: host
+    # ports:
+    #   - 8123:8123/tcp
+    restart: unless-stopped

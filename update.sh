@@ -5,6 +5,7 @@ docker-compose pull
 mkdir -p ./volumes/ha/config/custom_components/
 sudo zip -r opensprinkler-backup-$(date +%Y-%m-%d) ./volumes/ha/config/custom_components/opensprinkler
 cd hass-opensprinkler
+git checkout master
 git pull
 cd ..
 sudo rm -rf ./volumes/ha/config/custom_components/opensprinkler

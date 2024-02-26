@@ -36,7 +36,6 @@ services:
     image: lscr.io/linuxserver/homeassistant:latest
     volumes:
       - ./volumes/ha/config:/config
-      - ./volumes/ha/config/certs:/config/certs
     environment:
       PUID: 1000
       PGID: 1000
@@ -64,7 +63,6 @@ services:
       ha-reverse-proxy-backend:
         ipv4_address: ${REVERSE_PROXY_IP_ADDRESS}
     volumes:
-      - ./volumes/nginx/certs:/certs
       - ./volumes/nginx/config:/config
     ports:
       - ${CLIENT_LAN_IP}:443:443

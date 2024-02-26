@@ -5,7 +5,7 @@ server {
   listen 443 ssl;
   server_name ha.home;
 
-  ssl_certificate /config/keys/ha.home.crt;
+  ssl_certificate /config/certs/ha.home.crt;
   ssl_certificate_key /config/keys/ha.home.key;
 
   ssl_protocols TLSv1.3;

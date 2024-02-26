@@ -17,7 +17,6 @@ services:
     image: lscr.io/linuxserver/homeassistant:latest
     volumes:
       - ./volumes/ha/config:/config
-      - ./volumes/ha-homekit-device-adoption/config/configuration.yaml:/config/configuration.yaml
     environment:
       PUID: 1000
       PGID: 1000

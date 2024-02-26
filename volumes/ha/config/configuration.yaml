@@ -11,8 +11,9 @@ automation: !include automations.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
 
+# Disable the following for temporary HomeKit device adoption.
+# Re-enable when done.
 http:
-  # Disable the following for temporary HomeKit device adoption.
   use_x_forwarded_for: true
   trusted_proxies:
     - !env_var REVERSE_PROXY_IP_ADDRESS

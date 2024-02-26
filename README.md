@@ -29,3 +29,19 @@ http:
 Updating
 ---
 1. ./update.sh
+
+Adopting HomeKit devices
+---
+
+1. Enable multicast DNS on your networks
+1. docker-compose down
+1. Comment out the `http` section of `/volumes/ha/config/configuration.yaml` [More info](https://www.home-assistant.io/integrations/http#reverse-proxies)
+1. docker-compose -f docker-compose.homekit-device-adoption.yml up -d
+1. Access HA at http://{IP}:8123
+
+[More information](https://github.com/linuxserver/docker-homeassistant#host-vs-bridge)
+
+Afterwards:
+1. docker-compose down
+1. Uncomment the `http` section of `/volumes/ha/config/configuration.yaml`
+1. docker-compose up -d

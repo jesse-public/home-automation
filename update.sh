@@ -11,4 +11,4 @@ cd ..
 sudo rm -rf ./volumes/ha/config/custom_components/opensprinkler
 cp -r hass-opensprinkler/custom_components/opensprinkler ./volumes/ha/config/custom_components/
 docker image prune -f
-COMPOSE_HTTP_TIMEOUT=720 docker-compose up -d
+COMPOSE_HTTP_TIMEOUT=1200 docker-compose up -d

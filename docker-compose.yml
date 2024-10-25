@@ -8,7 +8,7 @@ networks:
   internet:
     driver: bridge
   zwave:
-    internal: true
+    internal: true # comment out this line during initial setup to access webui
 
 services:
 # To update configs, use esphome repo locally with enc.
@@ -38,6 +38,7 @@ services:
     networks:
       - ha-reverse-proxy-backend
       - internet
+      - zwave
     # ports:
     # Application WebUI, only use this if you are not using a reverse proxy
     #   - 8123:8123/tcp
@@ -56,7 +57,6 @@ services:
       frontend:
       ha-reverse-proxy-backend:
         ipv4_address: ${REVERSE_PROXY_IP_ADDRESS}
-      zwave:
     volumes:
       - ./volumes/nginx/config:/config
     ports:
@@ -79,6 +79,6 @@ services:
     volumes:
       - ./volumes/zwave-js-ui/store:/usr/src/app/store
     ports:
-      - 8091:8091/tcp # web interface
+      # - 8091:8091/tcp # web interface -- enable for initial setup
       - 3000:3000 # Z-Wave JS websocket server
     restart: unless-stopped

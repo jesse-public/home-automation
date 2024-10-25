@@ -1,5 +1,3 @@
-version: "3"
-
 # HomeKit device adoption notice: Use docker-compose.homekit-device-adoption.yml
 
 networks:
@@ -9,6 +7,8 @@ networks:
     external: true
   internet:
     driver: bridge
+  zwave:
+    internal: true
 
 services:
 # To update configs, use esphome repo locally with enc.
@@ -24,15 +24,17 @@ services:
 #    restart: unless-stopped
 
   ha:
-    container_name: ha
     image: lscr.io/linuxserver/homeassistant:latest
+    container_name: ha
+    depends_on:
+      - zwave-js-ui
     volumes:
       - ./volumes/ha/config:/config
     environment:
-      PUID: 1000
-      PGID: 1000
-      TZ: ${TZ}
-      REVERSE_PROXY_IP_ADDRESS: ${REVERSE_PROXY_IP_ADDRESS}
+      - PUID=1000
+      - PGID=1000
+      - TZ
+      - REVERSE_PROXY_IP_ADDRESS
     networks:
       - ha-reverse-proxy-backend
       - internet
@@ -47,15 +49,36 @@ services:
     depends_on:
       - ha
     environment:
-      PUID: 1000
-      PGID: 1000
-      TZ: ${TZ}
+      - PUID=1000
+      - PGID=1000
+      - TZ
     networks:
       frontend:
       ha-reverse-proxy-backend:
         ipv4_address: ${REVERSE_PROXY_IP_ADDRESS}
+      zwave:
     volumes:
       - ./volumes/nginx/config:/config
     ports:
       - ${CLIENT_LAN_IP}:443:443
+    restart: unless-stopped
+
+  zwave-js-ui:
+    image: zwavejs/zwave-js-ui:latest
+    container_name: zwave-js-ui
+    # tty: true
+    # stop_signal: SIGINT
+    environment:
+      - SESSION_SECRET
+      - ZWAVEJS_EXTERNAL_CONFIG=/usr/src/app/store/.config-db
+      - TZ
+    networks:
+      - zwave
+    devices:
+      - /dev/serial/by-id/insert_stick_reference_here:/dev/zwave
+    volumes:
+      - ./volumes/zwave-js-ui/store:/usr/src/app/store
+    ports:
+      - 8091:8091/tcp # web interface
+      - 3000:3000 # Z-Wave JS websocket server
     restart: unless-stopped

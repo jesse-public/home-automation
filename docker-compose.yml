@@ -39,6 +39,8 @@ services:
       - ha-reverse-proxy-backend
       - internet
       - zwave
+    devices:
+      - /dev/serial/by-id/<your_zigbee_adapter_id>:/dev/ttyUSB1
     # ports:
     # Application WebUI, only use this if you are not using a reverse proxy
     #   - 8123:8123/tcp
@@ -75,10 +77,10 @@ services:
     networks:
       - zwave
     devices:
-      - /dev/serial/by-id/insert_stick_reference_here:/dev/zwave
+      - /dev/serial/by-id/<your_zwave_adapter_id>:/dev/zwave
     volumes:
       - ./volumes/zwave-js-ui/store:/usr/src/app/store
     ports:
-      # - 8091:8091/tcp # web interface -- enable for initial setup
-      - 3000:3000 # Z-Wave JS websocket server
+      # - 8091:8091/tcp # web interface -- enable for initial setup along with disabling internal zwave network above
+      - 3000:3000/tcp # Z-Wave JS websocket server
     restart: unless-stopped

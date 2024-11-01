@@ -43,7 +43,7 @@ services:
       - /dev/serial/by-id/<your_zigbee_adapter_id>:/dev/ttyUSB1
     # ports:
     # Application WebUI, only use this if you are not using a reverse proxy
-    #   - 8123:8123/tcp
+    #   - ${CLIENT_LAN_IP}:8123:8123/tcp
     restart: unless-stopped
 
   nginx:
@@ -81,6 +81,6 @@ services:
     volumes:
       - ./volumes/zwave-js-ui/store:/usr/src/app/store
     ports:
-      # - 8091:8091/tcp # web interface -- enable for initial setup along with disabling internal zwave network above
+      # - ${CLIENT_LAN_IP}:8091:8091/tcp # web interface -- enable for initial setup along with disabling internal zwave network above
       - 3000:3000/tcp # Z-Wave JS websocket server
     restart: unless-stopped

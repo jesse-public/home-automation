@@ -1,3 +1,6 @@
 [submodule "hass-opensprinkler"]
 	path = hass-opensprinkler
 	url = https://github.com/vinteo/hass-opensprinkler.git
+[submodule "frigate-hass-integration"]
+	path = frigate-hass-integration
+	url = https://github.com/blakeblackshear/frigate-hass-integration.git

@@ -12,11 +12,11 @@ mkdir -p ./volumes/ha/config/custom_components/
 #sudo rm -rf ./volumes/ha/config/custom_components/opensprinkler
 #cp -r hass-opensprinkler/custom_components/opensprinkler ./volumes/ha/config/custom_components/
 
-sudo zip -r frigate-hass-integration-backup-$(date +%Y-%m-%d) ./volumes/ha/config/custom_components/frigate-hass-integration
+sudo zip -r frigate-hass-integration-backup-$(date +%Y-%m-%d) ./volumes/ha/config/custom_components/frigate
 cd frigate-hass-integration
 git pull
 cd ..
-sudo rm -rf ./volumes/ha/config/customer_components/frigate-hass-integration
+sudo rm -rf ./volumes/ha/config/customer_components/frigate
 cp -r frigate-hass-integration/custom_components/frigate ./volumes/ha/config/custom_components/
 
 docker image prune -f

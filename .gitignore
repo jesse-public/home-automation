@@ -3,4 +3,5 @@ volumes
 !volumes/nginx/config/keys/*.example
 !volumes/ha/config/*.example
 !volumes/ha/config/configuration.yaml
+!volumes/ha/config/ui-lovelace.yaml
 .env

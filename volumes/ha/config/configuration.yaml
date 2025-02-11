@@ -24,9 +24,4 @@ logger:
     homeassistant.components.zeroconf: debug
     zeroconf: debug
 
-lovelace:
-  resources:
-    - url: /local/mushroom.js
-      type: module
-
 zeroconf:

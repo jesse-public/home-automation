@@ -4,3 +4,6 @@
 [submodule "frigate-hass-integration"]
 	path = frigate-hass-integration
 	url = https://github.com/blakeblackshear/frigate-hass-integration.git
+[submodule "lovelace-mushroom"]
+	path = lovelace-mushroom
+	url = https://github.com/piitaya/lovelace-mushroom.git

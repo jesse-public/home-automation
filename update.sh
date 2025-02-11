@@ -3,7 +3,10 @@
 docker compose down
 docker compose pull
 
-mkdir -p ./volumes/ha/config/custom_components/
+git submodule init
+git submodule update
+
+mkdir -p ./volumes/ha/config/custom_components
 
 #sudo zip -r opensprinkler-backup-$(date +%Y-%m-%d) ./volumes/ha/config/custom_components/opensprinkler
 #cd hass-opensprinkler

@@ -7,3 +7,6 @@
 [submodule "lovelace-mushroom"]
 	path = lovelace-mushroom
 	url = https://github.com/piitaya/lovelace-mushroom.git
+[submodule "Bubble-Card"]
+	path = Bubble-Card
+	url = https://github.com/Clooos/Bubble-Card.git

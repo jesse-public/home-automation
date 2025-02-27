@@ -1,4 +1,4 @@
-# HomeKit device adoption notice: Use docker-compose.homekit-device-adoption.yml
+# HomeKit device adoption notice: Use compose.homekit-device-adoption.yml
 
 networks:
   frontend:

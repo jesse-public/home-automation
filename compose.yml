@@ -20,6 +20,10 @@ services:
     environment:
       - CF_API_TOKEN
       - CF_ZONE_TOKEN
+    networks:
+      frontend:
+      ha-reverse-proxy-backend:
+        ipv4_address: ${REVERSE_PROXY_IP_ADDRESS}
     volumes:
       - ./volumes/caddy/caddy_config:/config
       - ./volumes/caddy/caddy_data:/data
@@ -49,10 +53,10 @@ services:
     volumes:
       - ./volumes/ha/config:/config
     environment:
-      - PUID=1000
       - PGID=1000
-      - TZ
+      - PUID=1000
       - REVERSE_PROXY_IP_ADDRESS
+      - TZ
     networks:
       - ha-reverse-proxy-backend
       - internet

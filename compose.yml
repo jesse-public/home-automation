@@ -11,6 +11,24 @@ networks:
     internal: true # comment out this line during initial setup to access webui
 
 services:
+  caddy:
+    # Use custom dockerfile to build with required dns module
+    build: ./caddy
+    container_name: caddy
+    depends_on:
+      - ha
+    environment:
+      - CF_API_TOKEN
+      - CF_ZONE_TOKEN
+    volumes:
+      - ./volumes/caddy/caddy_config:/config
+      - ./volumes/caddy/caddy_data:/data
+      - ./volumes/caddy/conf:/etc/caddy
+      - ./volumes/caddy/site:/srv
+    ports:
+      - ${CLIENT_IP}:443:443/tcp
+    restart: unless-stopped
+
 # To update configs, use esphome repo locally with enc.
 #  esphome:
 #    container_name: esphome
@@ -46,24 +64,24 @@ services:
     #   - ${CLIENT_LAN_IP}:8123:8123/tcp
     restart: unless-stopped
 
-  nginx:
-    image: lscr.io/linuxserver/nginx:latest
-    container_name: ha-nginx
-    depends_on:
-      - ha
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ
-    networks:
-      frontend:
-      ha-reverse-proxy-backend:
-        ipv4_address: ${REVERSE_PROXY_IP_ADDRESS}
-    volumes:
-      - ./volumes/nginx/config:/config
-    ports:
-      - ${CLIENT_LAN_IP}:443:443
-    restart: unless-stopped
+  # nginx:
+  #   image: lscr.io/linuxserver/nginx:latest
+  #   container_name: ha-nginx
+  #   depends_on:
+  #     - ha
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=1000
+  #     - TZ
+  #   networks:
+  #     frontend:
+  #     ha-reverse-proxy-backend:
+  #       ipv4_address: ${REVERSE_PROXY_IP_ADDRESS}
+  #   volumes:
+  #     - ./volumes/nginx/config:/config
+  #   ports:
+  #     - ${CLIENT_LAN_IP}:443:443
+  #   restart: unless-stopped
 
   zwave-js-ui:
     image: zwavejs/zwave-js-ui:latest
@@ -72,8 +90,8 @@ services:
     # stop_signal: SIGINT
     environment:
       - SESSION_SECRET
-      - ZWAVEJS_EXTERNAL_CONFIG=/usr/src/app/store/.config-db
       - TZ
+      - ZWAVEJS_EXTERNAL_CONFIG=/usr/src/app/store/.config-db
     networks:
       - zwave
     devices:

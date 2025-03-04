@@ -4,8 +4,21 @@ ha.home {
       api_token {env.CF_API_TOKEN}
       zone_token {env.CF_ZONE_TOKEN}
     }
+
+    # override resolver to allow for validation of dns challenge
+    # https://github.com/caddy-dns/cloudflare/issues/28
+    resolvers 1.1.1.1 9.9.9.9
+
+    # increase propagation timeout and delay
+    propagation_timeout 10m
+    propagation_delay 30s
+
+    # decrease ttl of txt
+    dns_ttl 1m
+
     # lets encrypt doesn't support ed25519 yet
     key_type rsa4096
+
     protocols tls1.3
   }
 

@@ -1,14 +1,13 @@
-version: "3"
-
 services:
   ha:
-    container_name: ha
     image: lscr.io/linuxserver/homeassistant:latest
+    container_name: ha
     volumes:
       - ./volumes/ha/config:/config
     environment:
-      PUID: 1000
-      PGID: 1000
-      TZ: ${TZ}
+      - PGID=1000
+      - PUID=1000
+      - REVERSE_PROXY_IP_ADDRESS
+      - TZ
     network_mode: host
     restart: unless-stopped

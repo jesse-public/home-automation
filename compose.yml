@@ -10,6 +10,12 @@ networks:
   zwave:
     internal: true # comment out this line during initial setup to access webui
 
+secrets:
+  cf_api_token:
+    file: ./secrets/cf_api_token
+  cf_zone_token:
+    file: ./secrets/cf_zone_token
+
 services:
   caddy:
     # Use custom dockerfile to build with required dns module
@@ -17,13 +23,13 @@ services:
     container_name: caddy
     depends_on:
       - ha
-    environment:
-      - CF_API_TOKEN
-      - CF_ZONE_TOKEN
     networks:
       frontend:
       ha-reverse-proxy-backend:
         ipv4_address: ${REVERSE_PROXY_IP_ADDRESS}
+    secrets:
+      - cf_api_token
+      - cf_zone_token
     volumes:
       - ./volumes/caddy/caddy_config:/config
       - ./volumes/caddy/caddy_data:/data
@@ -67,25 +73,6 @@ services:
     # Application WebUI, only use this if you are not using a reverse proxy
     #   - ${CLIENT_IP}:8123:8123/tcp
     restart: unless-stopped
-
-  # nginx:
-  #   image: lscr.io/linuxserver/nginx:latest
-  #   container_name: ha-nginx
-  #   depends_on:
-  #     - ha
-  #   environment:
-  #     - PUID=1000
-  #     - PGID=1000
-  #     - TZ
-  #   networks:
-  #     frontend:
-  #     ha-reverse-proxy-backend:
-  #       ipv4_address: ${REVERSE_PROXY_IP_ADDRESS}
-  #   volumes:
-  #     - ./volumes/nginx/config:/config
-  #   ports:
-  #     - ${CLIENT_IP}:443:443
-  #   restart: unless-stopped
 
   zwave-js-ui:
     image: zwavejs/zwave-js-ui:latest

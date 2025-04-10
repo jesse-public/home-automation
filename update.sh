@@ -38,4 +38,4 @@ cp ./Bubble-Card/dist/bubble-card.js volumes/ha/config/www/
 cp ./Bubble-Card/dist/bubble-pop-up-fix.js volumes/ha/config/www/
 
 docker image prune -f
-docker compose up -d
+COMPOSE_BAKE=true docker compose up -d

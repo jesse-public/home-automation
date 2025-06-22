@@ -13,6 +13,14 @@ Configure env:
 [Optional] Setup opensprinkler:
 1. git submodule update --init --recursive
 
+### NTP server for devices (opensprinkler)
+
+1. `sudo apt-get update`
+1. `sudo apt-get install ntp`
+1. Edit ntp conf if desired `sudo nano /etc/ntp.conf`
+1. `sudo systemctl restart ntp`
+1. `ntpq -p`
+
 Updating
 ---
 1. ./update.sh

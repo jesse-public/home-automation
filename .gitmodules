@@ -1,12 +1,6 @@
-[submodule "hass-opensprinkler"]
-	path = hass-opensprinkler
-	url = https://github.com/vinteo/hass-opensprinkler.git
 [submodule "frigate-hass-integration"]
 	path = frigate-hass-integration
 	url = https://github.com/blakeblackshear/frigate-hass-integration.git
 [submodule "lovelace-mushroom"]
 	path = lovelace-mushroom
 	url = https://github.com/piitaya/lovelace-mushroom.git
-[submodule "Bubble-Card"]
-	path = Bubble-Card
-	url = https://github.com/Clooos/Bubble-Card.git
